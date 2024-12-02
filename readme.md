@@ -51,3 +51,18 @@ Requirements for running bare `oliana_text[.exe]`:
  - None! `\o/`
 
 
+## `Oliana-Server`
+
+**Goal:** Build a stand-alone webserver that allows bi-directional communication between a system without a GPU and a system WITH a GPU to run the following sub-tools:
+
+ - `oliana_images[.exe]`
+    - Given some text prompt, return in-progress images and the final image from a diffusion run on a GPU.
+ - `oliana_text[.exe]`
+    - Given some text prompt, return tokens as they are generated w/ a sentinel value to indicate the end at the final token.
+
+**Stretch Goal:** Keep the same model files in-memory so clients don't have to pay start-up costs for each request to generate an image or text.
+
+**Status:** Nothing so far, need to find a good RPC mechanism to use.
+
+
+
