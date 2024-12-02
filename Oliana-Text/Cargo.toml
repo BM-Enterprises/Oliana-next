@@ -1,0 +1,8 @@
+[package]
+name = "oliana_text"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+oliana_lib = { path = "../Oliana-Lib" }
+
