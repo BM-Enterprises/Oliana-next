@@ -66,11 +66,12 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let n_steps: usize = 24;
   let num_samples: i64 = 1;
   let guidance_scale: f64 = 7.5;
+  let (width, height) = (512, 512);
   let seed = std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH)?.subsec_nanos() as i64;
 
-  let sd_config = diffusers::pipelines::stable_diffusion::StableDiffusionConfig::v2_1(None /* attn size */, Some(1024), Some(1024));
+  let sd_config = diffusers::pipelines::stable_diffusion::StableDiffusionConfig::v2_1(None /* attn size */, Some(width), Some(height));
 
-  let device_setup = diffusers::utils::DeviceSetup::new(vec![]);
+  let device_setup = diffusers::utils::DeviceSetup::new(vec![/*"vae".into(), "clip".into(), "unet".into()*/]);
   let clip_device = device_setup.get("clip");
   let vae_device = device_setup.get("vae");
   let unet_device = device_setup.get("unet");
