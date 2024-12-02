@@ -1,1 +1,5 @@
 /target
+*.mpk
+*vocab*txt
+out.png
+

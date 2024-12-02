@@ -84,3 +84,16 @@ impl downloader::progress::Reporter for DownloadProgressReporter {
 
 
 
+
+pub async fn get_cache_dir() -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+  let mut user_cache_path = dirs::cache_dir().ok_or_else(|| return "No Cache Directory on this operating system!" ).map_err(crate::err::eloc!())?;
+  user_cache_path.push(env!("CARGO_PKG_NAME"));
+  tokio::fs::create_dir_all(&user_cache_path).await?;
+  Ok(user_cache_path)
+}
+
+pub async fn get_cache_file(file_name: &str) -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+    let mut pb = get_cache_dir().await?;
+    pb.push(file_name);
+    Ok(pb)
+}
