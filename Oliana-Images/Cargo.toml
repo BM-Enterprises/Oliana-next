@@ -5,3 +5,7 @@ edition = "2021"
 
 [dependencies]
 oliana_lib = { path = "../Oliana-Lib" }
+tokio =        { version = "1.41", features = ["full"] }
+num_cpus =     { version = "1.16" }
+
+#latentspace = { git = "https://github.com/jac3km4/latentspace.git" }
