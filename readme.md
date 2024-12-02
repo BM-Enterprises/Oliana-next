@@ -28,6 +28,10 @@
 TORCH_CUDA_VERSION=cu124 cargo run --release --bin oliana_images
 ```
 
+Requirements for running bare `oliana_images[.exe]`:
+
+ - Must add the folder containing `libtorch_cuda.so` to `LD_LIBRARY_PATH`. We will handle this in the launcher.
+
 ## `Oliana-Text`
 
 **Goal:** Build a stand-alone executable that can
@@ -41,3 +45,9 @@ TORCH_CUDA_VERSION=cu124 cargo run --release --bin oliana_images
 ```bash
 cargo run --release --bin oliana_text
 ```
+
+Requirements for running bare `oliana_text[.exe]`:
+
+ - None! `\o/`
+
+
