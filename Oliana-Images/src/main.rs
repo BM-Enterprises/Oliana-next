@@ -54,7 +54,7 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let bpe_simple_vocab_16e6_txt_path = oliana_lib::files::existinate(
     &bpe_simple_vocab_16e6_txt, "https://huggingface.co/lmz/rust-stable-diffusion-v2-1/raw/main/weights/bpe_simple_vocab_16e6.txt"
   ).await?;
-  let bpe_simple_vocab_16e6_txt_path_s = bpe_simple_vocab_16e6_txt_path.to_string_lossy();
+  // let bpe_simple_vocab_16e6_txt_path_s = bpe_simple_vocab_16e6_txt_path.to_string_lossy();
 
   // tch::maybe_init_cuda(); // No longer exists in 0.18+
   tch::Cuda::cudnn_set_benchmark(false); // Doesn't work -_- https://github.com/LaurentMazare/diffusers-rs/issues/16#issuecomment-1376939427
@@ -140,8 +140,9 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
       let image = (image * 255.).to_kind(Kind::Uint8);
       tch::vision::image::save(&image, out_file_path)?;
   }
+  drop(no_grad_guard);
 
-    Ok(())
+  Ok(())
 }
 
 
