@@ -35,7 +35,9 @@ TORCH_CUDA_VERSION=cu124 cargo run --release --bin oliana_images
 1. Download all files it needs to some local cache folder
 2. Execute a GPU-Accelerated context-question-answer pipeline
 
-**Status:** Nothing yet, but https://github.com/EricLBuehler/mistral.rs looks promising!
+**Status:** The current implementation runs `microsoft/Phi-3.5-mini-instruct` on the GPU, but we don't control where model files are saved to.
 
 
-
+```bash
+cargo run --release --bin oliana_text
+```
