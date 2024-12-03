@@ -39,7 +39,7 @@ Requirements for running bare `oliana_images[.exe]`:
 1. Download all files it needs to some local cache folder
 2. Execute a GPU-Accelerated context-question-answer pipeline
 
-**Status:** The current implementation runs `microsoft/Phi-3.5-mini-instruct` on the GPU, but we don't control where model files are saved to.
+**Status:** The current implementation runs `microsoft/Phi-3.5-mini-instruct` on the GPU, but we don't control where model files are saved to. The library does respect `HF_HOME` though, so we can use another process to set this before running `oliana_text[.exe]` to control where model files are saved to.
 
 
 ```bash
