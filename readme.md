@@ -53,7 +53,7 @@ Requirements for running bare `oliana_text[.exe]`:
 
 ## `Oliana-Server`
 
-**Goal:** Build a stand-alone webserver that allows bi-directional communication between a system without a GPU and a system WITH a GPU to run the following sub-tools:
+**Goal:** Build a stand-alone webserver & library that allows bi-directional communication between a system without a GPU and a system WITH a GPU to run the following sub-tools:
 
  - `oliana_images[.exe]`
     - Given some text prompt, return in-progress images and the final image from a diffusion run on a GPU.
@@ -65,4 +65,11 @@ Requirements for running bare `oliana_text[.exe]`:
 **Status:** Nothing so far, need to find a good RPC mechanism to use.
 
 
+```bash
+# In terminal A
+cargo run --release --bin oliana_server
+# In terminal B
+cargo run --release --bin oliana_client
+
+```
 
