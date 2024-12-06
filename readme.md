@@ -62,7 +62,10 @@ Requirements for running bare `oliana_text[.exe]`:
 
 **Stretch Goal:** Keep the same model files in-memory so clients don't have to pay start-up costs for each request to generate an image or text.
 
-**Status:** Nothing so far, need to find a good RPC mechanism to use.
+**Status:** We have a minimal server-client async RPC using `tarpc` + `serde` for binary transport over IPv6 and IPv4 TCP (some systems resolve `localhost` to `127.0.0.1`, others will resolve `localhost` to `::1/128`). We don't have a good client interface yet and the server doesn't interact with `Oliana-Images` or `Oliana-Text`.
+
+All of the above decisions mean our server can hold a long-term, two-way communication channel that can pass primitive types around; probably the most complex type we will pass is the result of `Oliana-Images`, which we can standardize as a `Vec<u8>` holding `.png` bytes of a single frame.
+
 
 
 ```bash
