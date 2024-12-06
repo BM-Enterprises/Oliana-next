@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [lib]
-name = "oliana_server"
+name = "oliana_server_lib"
 path = "src/lib.rs"
 
 [[bin]]
@@ -21,7 +21,7 @@ num_cpus =     { version = "1.16" }
 futures =      { version = "0.3" }
 anyhow = "1.0"
 
-tarpc =        { version = "0.25", features = ["tokio1"] }
+tarpc =        { version = "0.35", features = ["tokio1"] }
 
 
 
