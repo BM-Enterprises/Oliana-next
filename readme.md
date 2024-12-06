@@ -73,3 +73,21 @@ cargo run --release --bin oliana_client
 
 ```
 
+## `Oliana-CLI`
+
+**Goal:** Build a command-line tool capable of running the other tools to play `Oliana`-the-game in a command-line text-based aventure!
+
+**Stretch Goal:** Also add capabilities to download the other tools off the github releases page or similar distribution channel; TODO think about packaging ideas & how updates will work
+
+## `Oliana-GUI`
+
+**Goal:** Build a GUI tool capable of running the other tools to play `Oliana`-the-game in a graphical text-based aventure!
+
+**Stretch Goal:** Also add capabilities to download the other tools off the github releases page or similar distribution channel; TODO think about packaging ideas & how updates will work
+
+# Misc Notes
+
+`Oliana-CLI[.exe]` and `Oliana-GUI[.exe]` are going to share a lot of logic; we may either place that in `Oliana-Lib` or we may create a shared `Oliana-GameLogic` library to hold it.
+
+
+
