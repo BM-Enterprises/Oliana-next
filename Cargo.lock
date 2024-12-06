@@ -2482,6 +2482,7 @@ dependencies = [
  "anyhow",
  "futures",
  "num_cpus",
+ "serde",
  "tarpc",
  "tokio",
 ]

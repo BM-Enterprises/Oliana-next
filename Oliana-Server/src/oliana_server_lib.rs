@@ -1,3 +1,4 @@
+
 use futures::prelude::*;
 use tarpc::{
     client, context,
@@ -14,8 +15,11 @@ pub trait World {
 
 // This is the type that implements the generated World trait. It is the business logic
 // and is used to start the server.
-#[derive(Clone)]
-pub struct HelloServer;
+#[derive(Clone, serde::Serialize, serde::Deserialize)]
+pub struct HelloServer {
+    pub client_socket: std::net::SocketAddr,
+    pub some_data: String,
+}
 
 impl World for HelloServer {
     async fn hello(self, _: context::Context, name: String) -> String {
