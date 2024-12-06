@@ -21,7 +21,7 @@ num_cpus =     { version = "1.16" }
 futures =      { version = "0.3" }
 anyhow = "1.0"
 
-tarpc =        { version = "0.35", features = ["tokio1"] }
+tarpc =        { version = "0.35", features = ["tokio1", "tokio1", "tcp", "serde-transport-bincode"] }
 
 
 
