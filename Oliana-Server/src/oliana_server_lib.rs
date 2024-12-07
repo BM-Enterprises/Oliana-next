@@ -8,7 +8,7 @@ use tarpc::{
 // This is the service definition. It looks a lot like a trait definition.
 // It defines one RPC, hello, which takes one arg, name, and returns a String.
 #[tarpc::service]
-pub trait World {
+pub trait Oliana {
     /// Returns a greeting for name.
     async fn hello(name: String) -> String;
 }
@@ -16,12 +16,12 @@ pub trait World {
 // This is the type that implements the generated World trait. It is the business logic
 // and is used to start the server.
 #[derive(Clone, serde::Serialize, serde::Deserialize)]
-pub struct HelloServer {
+pub struct OlianaServer {
     pub client_socket: std::net::SocketAddr,
     pub some_data: String,
 }
 
-impl World for HelloServer {
+impl Oliana for OlianaServer {
     async fn hello(self, _: context::Context, name: String) -> String {
         format!("Hello, {name}!")
     }
