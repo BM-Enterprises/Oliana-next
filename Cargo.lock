@@ -814,8 +814,6 @@ dependencies = [
 [[package]]
 name = "diffusers"
 version = "0.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63afedce60ebf91cf03d4560b1d7dc14118f758e7946ec201d43ce490835f317"
 dependencies = [
  "anyhow",
  "regex",
@@ -3765,9 +3763,9 @@ dependencies = [
 
 [[package]]
 name = "tch"
-version = "0.13.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9cbd9ce6fb581a1b918db880b649d1364b50f7f6717eda8497bcdc929cddd4b9"
+checksum = "f139aa58f0189998a9674f8617b60e054226d98d541e444cd7db5ed986fcc35f"
 dependencies = [
  "half",
  "lazy_static",
@@ -4020,9 +4018,9 @@ dependencies = [
 
 [[package]]
 name = "torch-sys"
-version = "0.13.0"
+version = "0.18.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "42b2b81a479510717464df1d07c02cb4aebb26539a39b5db6637dda114a476cb"
+checksum = "0c787d00c8e04c9d37db6c4f0048f52820906ee7c42de5bae68a844fa8242fea"
 dependencies = [
  "anyhow",
  "cc",

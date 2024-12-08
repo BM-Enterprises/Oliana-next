@@ -25,7 +25,11 @@
 **Status:** Success! At the moment the results are all hard-coded, but we have the minimum needed to be useful. We currently download all of `https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/*.safetensors` and run a GPU-accelerated image-generation, which takes approximately `10s` for 24 steps of inference producing a `512x512` image using an Nvidia A5000 (approx `0.4s/step`, including process-start, model-load, and image-save overhead)
 
 ```bash
+# First most-reliable approach
 TORCH_CUDA_VERSION=cu124 cargo run --release --bin oliana_images
+
+# For Arch systems this is more reliable (see Misc Notes below, requires `yay -S libtorch-cxx11abi-cuda`)
+LIBTORCH_INCLUDE=/opt/libtorch-cuda LIBTORCH_LIB=/opt/libtorch-cuda cargo run --release --bin oliana_images
 ```
 
 Requirements for running bare `oliana_images[.exe]`:
@@ -92,5 +96,9 @@ cargo run --release --bin oliana_client
 
 `Oliana-CLI[.exe]` and `Oliana-GUI[.exe]` are going to share a lot of logic; we may either place that in `Oliana-Lib` or we may create a shared `Oliana-GameLogic` library to hold it.
 
+`torch-sys` is a pain to build reliably; the easest approach is to use the system-provided copy of torch by running:
+
+ - `yay -S libtorch-cuda libtorchvision-cuda libtorch-cxx11abi-cpu libtorch-cxx11abi-cuda`
+    - Installs the libraries
 
 

@@ -7,10 +7,11 @@ edition = "2021"
 oliana_lib = { path = "../Oliana-Lib" }
 tokio =        { version = "1.41", features = ["full"] }
 num_cpus =     { version = "1.16" }
-diffusers =    { version = "0.3" }
-
-tch = "0.13"
-torch-sys = { version = "0.13", features = ["download-libtorch"] }
+#diffusers =    { version = "0.3" }
+#diffusers = { git = "https://github.com/BM-Enterprises/diffusers-rs.git" }
+diffusers = { path = "../../diffusers-rs" }
+tch =       { version = "0.18", features = ["download-libtorch"] }
+torch-sys = { version = "0.18", features = ["download-libtorch"] }
 
 image = { version = "0.24.6" }
 imageproc = { version = "0.23.0" }
