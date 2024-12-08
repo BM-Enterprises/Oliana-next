@@ -32,28 +32,28 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let prompt_txt = "Photograph of a cowboy riding over the moon at night";
 
   // First download all the models
-  let local_clip_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_clip_v2.1.safetensors").await?;
+  let local_clip_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_clip_v2.1.safetensors").await.map_err(oliana_lib::eloc!())?;
   let local_clip_v2_1_path = oliana_lib::files::existinate(
     &local_clip_v2_1, "https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/clip_v2.1.safetensors"
-  ).await?;
+  ).await.map_err(oliana_lib::eloc!())?;
   let local_clip_v2_1_path_s = local_clip_v2_1_path.to_string_lossy();
 
-  let local_vae_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_vae_v2.1.safetensors").await?;
+  let local_vae_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_vae_v2.1.safetensors").await.map_err(oliana_lib::eloc!())?;
   let local_vae_v2_1_path = oliana_lib::files::existinate(
     &local_vae_v2_1, "https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/vae_v2.1.safetensors"
-  ).await?;
+  ).await.map_err(oliana_lib::eloc!())?;
   let local_vae_v2_1_path_s = local_vae_v2_1_path.to_string_lossy();
 
-  let local_unet_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_unet_v2.1.safetensors").await?;
+  let local_unet_v2_1 = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_unet_v2.1.safetensors").await.map_err(oliana_lib::eloc!())?;
   let local_unet_v2_1_path = oliana_lib::files::existinate(
     &local_unet_v2_1, "https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/unet_v2.1.safetensors"
-  ).await?;
+  ).await.map_err(oliana_lib::eloc!())?;
   let local_unet_v2_1_path_s = local_unet_v2_1_path.to_string_lossy();
 
-  let bpe_simple_vocab_16e6_txt = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_bpe_simple_vocab_16e6.txt").await?;
+  let bpe_simple_vocab_16e6_txt = oliana_lib::files::get_cache_file("rust-stable-diffusion-v2-1_bpe_simple_vocab_16e6.txt").await.map_err(oliana_lib::eloc!())?;
   let bpe_simple_vocab_16e6_txt_path = oliana_lib::files::existinate(
     &bpe_simple_vocab_16e6_txt, "https://huggingface.co/lmz/rust-stable-diffusion-v2-1/raw/main/weights/bpe_simple_vocab_16e6.txt"
-  ).await?;
+  ).await.map_err(oliana_lib::eloc!())?;
   // let bpe_simple_vocab_16e6_txt_path_s = bpe_simple_vocab_16e6_txt_path.to_string_lossy();
 
   // tch::maybe_init_cuda(); // No longer exists in 0.18+
@@ -62,6 +62,11 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   eprintln!("Cuda available: {}", tch::Cuda::is_available());
   eprintln!("Cudnn available: {}", tch::Cuda::cudnn_is_available());
   eprintln!("Cuda num devices: {}", tch::Cuda::device_count());
+
+  if !tch::Cuda::is_available() {
+    eprintln!("Refusing to run w/o CUDA! (we _can_, it's just so slow as to be worth investigating the HW/driver issues first)");
+    return Ok(());
+  }
 
   let n_steps: usize = 24;
   let num_samples: i64 = 1;
@@ -77,7 +82,7 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let unet_device = device_setup.get("unet");
   let scheduler = sd_config.build_scheduler(n_steps);
 
-  let tokenizer = diffusers::transformers::clip::Tokenizer::create(bpe_simple_vocab_16e6_txt_path, &sd_config.clip)?;
+  let tokenizer = diffusers::transformers::clip::Tokenizer::create(bpe_simple_vocab_16e6_txt_path, &sd_config.clip).map_err(oliana_lib::eloc!())?;
   println!("Running with prompt \"{prompt_txt}\".");
   let tokens = tokenizer.encode(&prompt_txt)?;
   let tokens: Vec<i64> = tokens.into_iter().map(|x| x as i64).collect();
@@ -95,9 +100,9 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let text_embeddings = tch::Tensor::cat(&[uncond_embeddings, text_embeddings], 0).to(unet_device);
 
   println!("Building the autoencoder.");
-  let vae = sd_config.build_vae(&local_vae_v2_1_path_s, vae_device)?;
+  let vae = sd_config.build_vae(&local_vae_v2_1_path_s, vae_device).map_err(oliana_lib::eloc!())?;
   println!("Building the unet.");
-  let unet = sd_config.build_unet(&local_unet_v2_1_path_s, unet_device, 4)?;
+  let unet = sd_config.build_unet(&local_unet_v2_1_path_s, unet_device, 4).map_err(oliana_lib::eloc!())?;
 
   let bsize = 1;
   for idx in 0..num_samples {
@@ -138,7 +143,7 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
       let image = vae.decode(&(&latents / 0.18215));
       let image = (image / 2 + 0.5).clamp(0., 1.).to_device(tch::Device::Cpu);
       let image = (image * 255.).to_kind(Kind::Uint8);
-      tch::vision::image::save(&image, out_file_path)?;
+      tch::vision::image::save(&image, out_file_path).map_err(oliana_lib::eloc!())?;
   }
   drop(no_grad_guard);
 

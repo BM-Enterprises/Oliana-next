@@ -28,7 +28,7 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
         .with_logging()
         .with_paged_attn(|| PagedAttentionMetaBuilder::default().build())?
         .build()
-        .await?;
+        .await.map_err(oliana_lib::eloc!())?;
 
     let messages = TextMessages::new()
         .add_message(
@@ -40,7 +40,7 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
             "Hello! How are you? Please write generic binary search function in Rust.",
         );
 
-    let response = model.send_chat_request(messages).await?;
+    let response = model.send_chat_request(messages).await.map_err(oliana_lib::eloc!())?;;
 
     println!("{}", response.choices[0].message.content.as_ref().unwrap());
     dbg!(
