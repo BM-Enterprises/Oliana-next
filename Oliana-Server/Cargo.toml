@@ -16,6 +16,8 @@ name = "oliana_client"
 path = "src/oliana_client.rs"
 
 [dependencies]
+oliana_lib = { path = "../Oliana-Lib" }
+
 tokio =        { version = "1.0", features = ["full", "rt-multi-thread", "macros",] }
 num_cpus =     { version = "1.16" }
 futures =      { version = "0.3" }

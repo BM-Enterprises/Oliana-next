@@ -23,15 +23,20 @@ pub trait Oliana {
 pub struct OlianaServer {
     pub client_socket: std::net::SocketAddr,
 
+    #[serde(skip)]
+    pub shareable_procs: Option<std::sync::Arc<std::sync::RwLock<oliana_lib::launchers::TrackedProcs>>>,
+
     pub token_generation_complete: bool,
     pub generated_text_tokens: Vec<String>,
     pub generate_text_next_token_i: usize,
 }
 
 impl OlianaServer {
-    pub fn new(client_socket: std::net::SocketAddr) -> Self {
+    pub fn new(client_socket: std::net::SocketAddr, shareable_procs: std::sync::Arc<std::sync::RwLock<oliana_lib::launchers::TrackedProcs>>) -> Self {
         Self {
             client_socket: client_socket,
+
+            shareable_procs: Some(shareable_procs),
 
             token_generation_complete: false,
             generated_text_tokens: Vec::with_capacity(4096),

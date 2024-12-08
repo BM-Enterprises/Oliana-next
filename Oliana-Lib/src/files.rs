@@ -97,3 +97,68 @@ pub async fn get_cache_file(file_name: &str) -> Result<std::path::PathBuf, Box<d
     pb.push(file_name);
     Ok(pb)
 }
+
+#[cfg(target_os="windows")]
+pub fn append_os_extention_to_bin(bin_name: &str) -> String {
+    if bin_name.ends_with(".exe") || bin_name.ends_with(".EXE") {
+        return bin_name.to_string();
+    }
+    return format!("{bin_name}.exe");
+}
+#[cfg(not(target_os="windows"))]
+pub fn append_os_extention_to_bin(bin_name: &str) -> String {
+    return bin_name.to_string();
+}
+
+
+pub fn find_newest_mtime_bin_under_folder(folder: &std::path::Path, bin_name: &str) -> Result<std::path::PathBuf, Box<dyn std::error::Error>> {
+    let bin_name = append_os_extention_to_bin(bin_name);
+
+    let bin_name_osstr: &std::ffi::OsStr = bin_name.as_ref();
+
+    let mut newest_path: Option<std::path::PathBuf> = None;
+    let mut newest_mtime: filetime::FileTime = filetime::FileTime::zero();
+
+    for entry in walkdir::WalkDir::new(folder) {
+        if let Ok(entry) = entry {
+            let epath = entry.path();
+            if !epath.is_file() {
+                continue; // Skip folder
+            }
+            if let Some(file_name_osstr) = epath.file_name() {
+                if file_name_osstr != bin_name_osstr {
+                    continue; // Skip things not of same name
+                }
+            }
+            else {
+                continue; // Skip things w/o a name at all
+            }
+
+            match std::fs::metadata(epath) {
+                Ok(metadata) => {
+                    let mtime = filetime::FileTime::from_last_modification_time(&metadata);
+                    if mtime > newest_mtime {
+                        newest_path = Some(epath.to_path_buf());
+                        newest_mtime = mtime;
+                    }
+                }
+                Err(e) => {
+                    eprintln!("{}:{} {:?}", file!(), line!(), e);
+                }
+            }
+
+        }
+    }
+
+    if let Some(newest_pb) = newest_path {
+        return Ok(newest_pb);
+    }
+    else {
+        return Err(format!("Failed to lookup the program {bin_name:?} under {folder:?}").into())
+    }
+}
+
+
+
+
+
