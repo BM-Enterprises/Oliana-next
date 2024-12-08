@@ -814,6 +814,7 @@ dependencies = [
 [[package]]
 name = "diffusers"
 version = "0.3.1"
+source = "git+https://github.com/BM-Enterprises/diffusers-rs.git#9b9840eef61e7fcf4a387689fbee50fa006f6552"
 dependencies = [
  "anyhow",
  "regex",
@@ -4025,9 +4026,6 @@ dependencies = [
  "anyhow",
  "cc",
  "libc",
- "serde",
- "serde_json",
- "ureq",
  "zip 0.6.6",
 ]
 
