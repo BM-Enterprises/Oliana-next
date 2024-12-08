@@ -102,6 +102,7 @@ cargo run --release --bin oliana_client
 
  - `yay -S libtorch-cuda libtorchvision-cuda libtorch-cxx11abi-cpu libtorch-cxx11abi-cuda`
     - Installs the libraries
+ - `sudo ln -s /opt/libtorch-cuda/lib/libtorch.so /usr/lib/libtorch.so`
  - `sudo ln -s /opt/libtorch-cuda/lib/libc10.so /lib/libc10.so`
  - `sudo ln -s /opt/libtorch-cuda/lib/libtorch_cpu.so /lib/libtorch_cpu.so`
  - `sudo ln -s /opt/libtorch-cuda/lib/libtorch_cuda.so /lib/libtorch_cuda.so`
