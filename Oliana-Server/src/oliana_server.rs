@@ -1,3 +1,6 @@
+
+#![allow(unused_imports, unused_variables)]
+
 use futures::prelude::*;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {

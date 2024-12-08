@@ -2480,6 +2480,7 @@ name = "oliana_server"
 version = "0.1.0"
 dependencies = [
  "anyhow",
+ "clap",
  "futures",
  "num_cpus",
  "serde",

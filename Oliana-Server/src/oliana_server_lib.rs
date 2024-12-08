@@ -1,3 +1,4 @@
+#![allow(unused_imports, unused_variables)]
 
 use futures::prelude::*;
 use tarpc::{
