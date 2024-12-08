@@ -40,10 +40,20 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
   let client = oliana_server_lib::OlianaClient::new(tarpc::client::Config::default(), transport.await?).spawn();
 
   if args.command == Command::Text {
-    let reply = client.hello(tarpc::context::current(), format!("1")).await?;
+    let text_begin_diagnostic = client.generate_text_begin(tarpc::context::current(), args.prompt.clone() ).await?;
+    eprintln!("From Server: {:?}", &text_begin_diagnostic);
+    let mut generated_text = String::with_capacity(4096);
+    while let Some(next_token) = client.generate_text_next_token(tarpc::context::current()).await? {
+      generated_text.push_str(&next_token);
+      generated_text.push_str(" ");
+    }
+    if args.output.len() > 0 {
+      eprintln!("Writing {} chars to {}", generated_text.len(), &args.output);
+      tokio::fs::write(&args.output, &generated_text).await?;
+    }
   }
   else if args.command == Command::Image {
-    let reply = client.hello(tarpc::context::current(), format!("1")).await?;
+    //let reply = client.hello(tarpc::context::current(), format!("1")).await?;
 
   }
 
