@@ -22,7 +22,9 @@
 1. Download all files it needs to some local cache folder
 2. Execute a GPU-Accelerated text-to-image pipeline
 
-**Status:** Success! At the moment the results are all hard-coded, but we have the minimum needed to be useful. We currently download all of `https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/*.safetensors` and run a GPU-accelerated image-generation, which takes approximately `10s` for 24 steps of inference producing a `512x512` image using an Nvidia A5000 (approx `0.4s/step`, including process-start, model-load, and image-save overhead)
+**Status:** ~~Success! At the moment the results are all hard-coded, but we have the minimum needed to be useful. We currently download all of `https://huggingface.co/lmz/rust-stable-diffusion-v2-1/resolve/main/weights/*.safetensors` and run a GPU-accelerated image-generation, which takes approximately `10s` for 24 steps of inference producing a `512x512` image using an Nvidia A5000 (approx `0.4s/step`, including process-start, model-load, and image-save overhead)~~
+
+UPDATE: Current system can build everything fine, but at runtime we have a missing function that isn't in any of the libraries: `target/release/oliana_images: symbol lookup error: target/release/oliana_images: undefined symbol: _ZN5torch3jit4loadERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEESt8optionalIN3c106DeviceEEb`
 
 ```bash
 # First most-reliable approach
