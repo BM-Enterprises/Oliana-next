@@ -68,6 +68,24 @@ async fn main_async() -> Result<(), Box<dyn std::error::Error>> {
     return Ok(());
   }
 
+  // We assume the .safetensors above are all Floats (32 bit numbers) but modern tch's pipeline wants Half values.
+  // We perform a conversion here & safe off the result, changing the file loaded below.
+  /*
+  let local_clip_v2_1_tensors = tch::Tensor::read_safetensors(&local_clip_v2_1_path)?;
+  let local_unet_v2_1_tensors = tch::Tensor::read_safetensors(&local_unet_v2_1_path)?;
+  let local_vae_v2_1_tensors = tch::Tensor::read_safetensors(&local_vae_v2_1_path)?;
+
+  for (name, tensor) in local_clip_v2_1_tensors.iter() {
+      println!("local_clip_v2_1_tensors: {name} {tensor:?}")
+  }
+  for (name, tensor) in local_unet_v2_1_tensors.iter() {
+      println!("local_unet_v2_1_tensors: {name} {tensor:?}")
+  }
+  for (name, tensor) in local_vae_v2_1_tensors.iter() {
+      println!("local_vae_v2_1_tensors: {name} {tensor:?}")
+  }
+  */
+
   let n_steps: usize = 24;
   let num_samples: i64 = 1;
   let guidance_scale: f64 = 7.5;
