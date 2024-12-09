@@ -3,6 +3,8 @@ name = "oliana_images"
 version = "0.1.0"
 edition = "2021"
 
+build = "build.rs"
+
 [dependencies]
 oliana_lib = { path = "../Oliana-Lib" }
 tokio =        { version = "1.41", features = ["full"] }

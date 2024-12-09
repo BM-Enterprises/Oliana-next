@@ -104,7 +104,7 @@ cargo run --release --bin oliana_client
 
 `torch-sys` is a pain to build reliably; the easest approach is to use the system-provided copy of torch by running:
 
- - `yay -S libtorch-cuda libtorchvision-cuda libtorch-cxx11abi-cpu libtorch-cxx11abi-cuda`
+ - `yay -S libtorch-cxx11abi-cpu libtorch-cxx11abi-cuda`
     - Installs the libraries
  - `sudo ln -s /opt/libtorch-cuda/lib/libtorch.so /usr/lib/libtorch.so`
  - `sudo ln -s /opt/libtorch-cuda/lib/libc10.so /lib/libc10.so`
