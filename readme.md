@@ -31,7 +31,11 @@ UPDATE: Current system can build everything fine, but at runtime we have a missi
 TORCH_CUDA_VERSION=cu124 cargo run --release --bin oliana_images
 
 # For Arch systems this is more reliable (see Misc Notes below, requires `yay -S libtorch-cxx11abi-cuda`)
-LIBTORCH_INCLUDE=/opt/libtorch-cuda LIBTORCH_LIB=/opt/libtorch-cuda cargo run --release --bin oliana_images
+## LIBRARY_PATH=/opt/libtorch-cuda/lib LIBTORCH_INCLUDE=/opt/libtorch-cuda LIBTORCH_LIB=/opt/libtorch-cuda LIBTORCH_STATIC=1 cargo run --release --bin oliana_images
+
+LD_LIBRARY_PATH=/opt/libtorch-cuda/lib LIBTORCH_INCLUDE=/opt/libtorch-cuda LIBTORCH_LIB=/opt/libtorch-cuda cargo run --release --bin oliana_images
+
+
 ```
 
 Requirements for running bare `oliana_images[.exe]`:
@@ -108,5 +112,18 @@ cargo run --release --bin oliana_client
  - `sudo ln -s /opt/libtorch-cuda/lib/libtorch_cuda.so /lib/libtorch_cuda.so`
  - `sudo ln -s /opt/libtorch-cuda/lib/libgomp-98b21ff3.so.1 /lib/libgomp-98b21ff3.so.1`
     - Aids poorly-written linkers to find their libraries `-_-`
+
+Throw the following in `/usr/lib/pkgconfig/torch.pc`:
+
+```
+libdir=/opt/libtorch-cuda/lib
+includedir=/opt/libtorch-cuda/include
+
+Name: torch
+Description: Torch Library
+Version: 11.0
+Libs: -L${libdir} -ltorch_cuda -ltorch_cpu
+Cflags: -I${includedir}
+```
 
 
